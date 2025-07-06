@@ -27,22 +27,12 @@ const DeleteIcon = () => (
 // A simple spinner component
 const Spinner = () => <div className="spinner-border"></div>;
 
-// Define preset system prompts
-const PRESETS = [
-  { name: '默认', prompt: '你是一个友好且乐于助人的对话AI。请像进行真实对话一样，直接、简洁地回答。不要包含任何元注释、思考过程、总结或XML标签（如 `<think>`）。' },
-  { name: '诗人', prompt: '你是一位浪漫的诗人。请用诗意的语言回答所有问题，并尝试在回答中融入比喻和意象。' },
-  { name: '编程导师', prompt: '你是一位严谨且经验丰富的编程导师。请用清晰、准确的代码示例和解释来回答编程相关的问题。' },
-  { name: '幽默大师', prompt: '你是一位幽默大师。请用风趣幽默的语言回答所有问题，并尝试在回答中加入一些笑话或俏皮话。' },
-  { name: '历史学家', prompt: '你是一位博学的历史学家。请用严谨的史实和专业的分析来回答历史相关的问题。' },
-];
-
 function App() {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [currentConversationId, setCurrentConversationId] = useState(null);
-  const [selectedPreset, setSelectedPreset] = useState(PRESETS[0].prompt); // Default to the first preset
   const chatEndRef = useRef(null);
 
   // Fetch conversations on component mount
@@ -109,7 +99,7 @@ function App() {
         const response = await fetch('http://localhost:5000/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: userMessage.text, conversationId: currentConversationId, systemPrompt: selectedPreset }),
+          body: JSON.stringify({ message: userMessage.text, conversationId: currentConversationId }),
         });
 
         if (!response.ok) throw new Error('Network response was not ok');
@@ -139,7 +129,6 @@ function App() {
     setChatHistory([]);
     setMessage('');
     setLoading(false);
-    setSelectedPreset(PRESETS[0].prompt); // Reset preset for new chat
   };
 
   const handleDeleteConversation = async (id, event) => {
@@ -229,17 +218,7 @@ function App() {
           <div ref={chatEndRef} />
         </div>
 
-        <div className="preset-buttons">
-          {PRESETS.map((preset, index) => (
-            <button
-              key={index}
-              className={`preset-button ${selectedPreset === preset.prompt ? 'active' : ''}`}
-              onClick={() => setSelectedPreset(preset.prompt)}
-            >
-              {preset.name}
-            </button>
-          ))}
-        </div>
+        
 
         <form onSubmit={handleSendMessage} className="message-form">
           <input
