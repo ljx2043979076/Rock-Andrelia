@@ -1,7 +1,7 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-简体中文https://github.com/ljx2043979076/Rock-Andrelia/blob/master/Readme_cn.md
+[简体中文](https://github.com/ljx2043979076/Rock-Andrelia/blob/master/Readme_cn.md)
 ## Available Scripts
 
 In the project directory, you can run:
